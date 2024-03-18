@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Can you find the fracture?</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex justify-center items-center h-screen">
+    <div class="bg-white p-6  w-3/4 mx-auto rounded-lg shadow-lg">
+        <h1 class="text-xl font-bold mb-4">Can you find the fracture?</h1>
+        <form action="/endgame" method="POST" class="space-y-4">
+            <p class="mb-4">Congratulations on completing the game!</p>
+            <div class="mb-4">
+                <p>Is the bone intact or fractured (required)?</p>
+                <label class="inline-flex items-center">
+                    <input type="radio" name="boneStatus" value="intact" class="form-radio" required>
+                    <span class="ml-2">Intact</span>
+                </label>
+                <label class="inline-flex items-center">
+                    <input type="radio" name="boneStatus" value="fractured" class="form-radio" required>
+                    <span class="ml-2">Fractured</span>
+                </label>
+            </div>
+            <div class="mb-4">
+                <p>What is your confidence, 1 - guessing and 10 - very confident (required)?:</p>
+                <div class="flex items-center">
+                    <span>1</span> <!-- Label "1" on the left -->
+                    <input type="range" id="confidence" name="confidence" min="1" max="10" 
+                           class="mx-4 w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" required> <!-- Slider with left and right margins -->
+                    <span>10</span> <!-- Label "10" on the right -->
+                </div>
+                <div id="sliderValue" class="text-center mt-2">5</div> <!-- Confidence level indicator centered below the slider -->
+            </div>
+            <button type="submit" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Submit
+            </button>
+        </form>
+    </div>
+
+    <script>
+        const slider = document.getElementById('confidence');
+        const sliderValue = document.getElementById('sliderValue');
+        sliderValue.textContent = slider.value;
+
+        // Update the current slider value (each time you drag the slider handle)
+        slider.addEventListener('input', function() {
+            sliderValue.textContent = this.value;
+        });
+    </script>
+</body>
+</html>

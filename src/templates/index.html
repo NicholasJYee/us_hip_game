@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Can you find the fracture?</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex justify-center items-center h-screen">
+    <div class="bg-white p-6  w-3/4 mx-auto rounded-lg shadow-lg">
+        <h1 class="text-xl font-bold mb-4">Can you find the fracture?</h1>
+        <form action="/game" method="POST" class="space-y-4">
+            <p class="mb-4">
+                The goal of the game is to determine whether or not there is a bone fracture in the ultrasound image. You 
+                will have a random start position and ultrasound probe orientation. You 
+                can use the WADS keys to move the ultrasound probe and 'q' or 'e' to turn
+                the probe 90 degrees.
+            </p>
+            <p class="mb-4">
+                When you are confident on whether or not the bone is fractured, then hit 
+                'g' and the game will prompt you for your decision and your confidence. 
+                Your time and number of moves will be recorded (but take as long as you need
+                because the goal is to be as confident as you can be).
+            </p>
+            <p class="mb-4">
+                Good luck!
+            </p>
+            <p class="mb-4 font-bold">Please enter your preferred name (optional):</p>
+            <input type="text" name="name" id="nameInput" placeholder="Preferred name" 
+                class="w-full p-2 border border-gray-300 rounded-md mb-4">
+            <button type="submit" 
+                    class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Start game
+            </button>
+        </form>
+    </div>
+
+    <!-- Display message when game ends -->
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div id="overlay" onclick="hideOverlay()" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+        <div class="bg-white p-4 rounded shadow-lg">
+            {{ messages[0] }}
+        </div>
+    </div>
+
+    <script>
+        function hideOverlay() {
+            document.getElementById('overlay').style.display = 'none';
+        }
+    </script>
+    {% endif %}
+    {% endwith %}
+
+</body>
+</html>
