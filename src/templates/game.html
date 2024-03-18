@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Display on Key Press</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex flex-col justify-center items-center h-screen">
+    <!-- Image Container -->
+    <div class="mb-4">
+        <img id="displayedImage" src="" alt="Press WASD to display an image" class="max-w-full max-h-600px">
+    </div>
+    <!-- Controls Container -->
+    <div>
+        <div class="flex justify-center mb-2">
+            <button id="qButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-6 px-9 m-2 rounded-lg">Rotate (q)</button>
+            <button id="wButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-6 px-9 m-2 rounded-lg">Up (w)</button>
+            <button id="eButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-6 px-9 m-2 rounded-lg">Rotate (e)</button>
+        </div>
+        <div class="flex justify-center mb-2">
+            <button id="aButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-6 px-9 m-2 rounded-lg">Left (a)</button>
+            <button id="sButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-6 px-9 m-2 rounded-lg">Down (s)</button>
+            <button id="dButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-6 px-9 m-2 rounded-lg">Right (d)</button>
+        </div>
+        <div class="flex justify-center">
+            <button id="endGameButton" class="bg-red-500 hover:bg-red-700 text-white font-bold py-3 px-6 m-2 rounded-lg">End Game (g)</button>
+        </div>
+    </div>
+
+    <script>
+
+        function handleControlAction(actionKey) {
+            $.getJSON(`/keypress/${actionKey}`, function(data) {
+                if (data.success) {
+                    console.log('success');
+                    $('#displayedImage').attr('src', `/image/${data.image_path}`);
+                } else {
+                    // If end game, redirect to end game page
+                    window.location.href = data.redirect;
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            var imagePath = "/image/{{ image_path }}";
+            $('#displayedImage').attr('src', imagePath);
+        });
+
+        // Event listener for key presses
+        $(document).keydown(function(e) {
+            var key = e.key;
+            var allowedKeys = ['w', 'a', 's', 'd', 'e', 'q', 'g'];
+            if (allowedKeys.includes(key)) {
+                handleControlAction(key);
+            }
+        });
+
+        // Event listeners for control buttons
+        $('#wButton').click(function() { handleControlAction('w'); });
+        $('#aButton').click(function() { handleControlAction('a'); });
+        $('#sButton').click(function() { handleControlAction('s'); });
+        $('#dButton').click(function() { handleControlAction('d'); });
+        $('#qButton').click(function() { handleControlAction('q'); });
+        $('#eButton').click(function() { handleControlAction('e'); });
+        $('#endGameButton').click(function() { handleControlAction('g'); });
+
+    </script>
+</body>
+</html>
